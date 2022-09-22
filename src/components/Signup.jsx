@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -6,7 +6,11 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -31,6 +35,8 @@ const theme = createTheme();
 export default function Signup() {
 
     let dispatch = useDispatch()
+    let [userType, setUserType] = useState('patient')
+    let [checked, setChecked] = useState(true)
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -40,15 +46,17 @@ export default function Signup() {
             email: data.get('email'),
             password: data.get('password'),
             confirmPassword: data.get('confirmPassword'),
+            userType
         };
-        dispatch(signup(user))
+        console.log(userType)
+        // dispatch(signup(user))
     };
 
 
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs" sx={{backgroundColor: 'white'}}>
+            <Container component="main" maxWidth="xs" sx={{ backgroundColor: 'white' }}>
                 <CssBaseline />
                 <Box
                     sx={{
@@ -106,6 +114,19 @@ export default function Signup() {
                                     id="confirmPassword"
                                     autoComplete="new-password"
                                 />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className="checkBox">
+                                    <p className="login-text">Signup as a,</p>
+                                    <div className="checkBox1">
+                                        <Checkbox checked={checked} onClick={() => { setUserType('patient'); setChecked(true) }} />
+                                        <p className="userType">Patient</p>
+                                    </div>
+                                    <div className="checkBox1">
+                                        <Checkbox checked={!checked} onClick={() => { setUserType('doctor'); setChecked(false) }} />
+                                        <p className="userType">Doctor</p>
+                                    </div>
+                                </div>
                             </Grid>
                         </Grid>
                         <Button

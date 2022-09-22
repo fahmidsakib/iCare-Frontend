@@ -1,9 +1,81 @@
 
-
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
 
 *{
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
 }
+
+.Login {
+  background-image: url(../public/images/bg1.jpg);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100vh;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.toggle-signup {
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  color: rgb(21, 101, 192);
+}
+
+.logo{
+  border-radius: 5px;
+}
+
+.checkBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.checkBox1 {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+}
+
+
+/* PatientHome */
+
+.PatientHome {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+  background-color: #FC7753;
+}
+
+
+.name-logout {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+
+p.name {
+  font-size: 24px;
+  color: white;
+}
+
+
+
