@@ -8,6 +8,20 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+
+/* Loading */
+
+.Loading{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* Login */
+
 .Login {
   background-image: url(../public/images/bg1.jpg);
   display: flex;

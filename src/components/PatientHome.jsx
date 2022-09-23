@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import { Navigate, useNavigate } from 'react-router-dom';
 import PatientForm from './PatientForm';
-import { checkInfo } from '../slices/patient.slice';
+import { checkInfo, getConsultations, getDoctorsInfo, getPastConsultations } from '../slices/patient.slice';
 import Loading from './Loading';
 
 export default function PatientHome() {
@@ -29,6 +29,9 @@ export default function PatientHome() {
 
   useEffect(() => {
     if (takePatientInfo) dispatch(checkInfo())
+    dispatch(getDoctorsInfo())
+    dispatch(getConsultations())
+    dispatch(getPastConsultations())
     // eslint-disable-next-line
   }, [])
 
@@ -46,6 +49,8 @@ export default function PatientHome() {
         </div>
 
         {(takePatientInfo && patientInfo === undefined) && <PatientForm />}
+
+
 
       </div>
 }
