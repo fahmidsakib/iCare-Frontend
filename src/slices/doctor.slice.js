@@ -7,8 +7,13 @@ const saveDoctorInfo = createAsyncThunk('doctor-slice/saveDoctorInfo', async (da
   return response.data
 })
 
-const getPatientInfo = createAsyncThunk('doctor-slice/getPatientInfo', async (patientId) => { 
+const getSpecificPatientsInfo = createAsyncThunk('doctor-slice/getSpecificPatientsInfo', async (patientId) => {
   const response = await axiosClient.get(`/doctor/get-patient-info/${patientId}`)
+  return response.data
+})
+
+const getPatientsInfo = createAsyncThunk('doctor-slice/getPatientInfo', async () => {
+  const response = await axiosClient.get(`/doctor/get-patients-info`)
   return response.data
 })
 
@@ -40,12 +45,13 @@ let doctorSlice = createSlice({
     dError: null,
     dAlert: null,
     dLoading: null,
+    patientInfo: null,
     doctorInfo: localStorage.getItem('doctorInfo-iCare') !== null ? JSON.parse(localStorage.getItem('doctorInfo-iCare')) : null,
     takeDoctorInfo: localStorage.getItem('doctorInfo-iCare') !== null ? false : true,
-    patientInfo: null,
-    todaysConsultations: null,
-    upcomingConsultations: null,
-    selectedConsultations: null,
+    allPatients: [],
+    todaysConsultations: [],
+    upcomingConsultations: [],
+    selectedConsultations: [],
     revenue: 0,
   },
   reducers: {
@@ -70,18 +76,32 @@ let doctorSlice = createSlice({
         localStorage.setItem('doctorInfo-iCare', JSON.stringify(action.payload.data.payload))
       })
 
-      .addCase(getPatientInfo.pending, (state, action) => {
+      .addCase(getSpecificPatientsInfo.pending, (state, action) => {
         state.dError = null
         state.dLoading = true
       })
-      .addCase(getPatientInfo.rejected, (state, action) => {
+      .addCase(getSpecificPatientsInfo.rejected, (state, action) => {
         state.dError = action.error.message
         state.dLoading = false
       })
-      .addCase(getPatientInfo.fulfilled, (state, action) => {
+      .addCase(getSpecificPatientsInfo.fulfilled, (state, action) => {
         state.dError = null
         state.dLoading = false
         state.patientInfo = action.payload.data
+      })
+
+      .addCase(getPatientsInfo.pending, (state, action) => {
+        state.dError = null
+        state.dLoading = true
+      })
+      .addCase(getPatientsInfo.rejected, (state, action) => {
+        state.dError = action.error.message
+        state.dLoading = false
+      })
+      .addCase(getPatientsInfo.fulfilled, (state, action) => {
+        state.dError = null
+        state.dLoading = false
+        state.allPatients = action.payload.data
       })
 
       .addCase(getConsultations.pending, (state, action) => {
@@ -113,7 +133,7 @@ let doctorSlice = createSlice({
         state.selectedConsultations = action.payload.data.selectedConsultations
         state.revenue = action.payload.data.revenue
       })
-    
+
       .addCase(checkInfo.pending, (state, action) => {
         state.dError = null
         state.dLoading = true
@@ -131,7 +151,8 @@ let doctorSlice = createSlice({
         }
         else {
           state.doctorInfo = action.payload.data
-          state.takeDoctorInfo = true
+          state.takeDoctorInfo = false
+          localStorage.setItem('doctorInfo-iCare', JSON.stringify(state.doctorInfo))
         }
       })
   }
@@ -140,4 +161,4 @@ let doctorSlice = createSlice({
 
 export default doctorSlice.reducer
 // export const { } = doctorSlice.actions
-export { saveDoctorInfo, getPatientInfo, getRevenue, getConsultations, checkInfo }
+export { getPatientsInfo, saveDoctorInfo, getSpecificPatientsInfo, getRevenue, getConsultations, checkInfo }

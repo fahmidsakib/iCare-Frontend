@@ -104,9 +104,9 @@ export default function PatietntForm() {
                     onChange={(e) => setSex(e.target.value)}
                     sx={{ color: 'rgb(198, 0, 23)' }}
                   >
-                    <MenuItem key={1} value='male'>Male</MenuItem>
-                    <MenuItem key={2} value='female'>Female</MenuItem>
-                    <MenuItem key={3} value='others'>Others</MenuItem>
+                    <MenuItem key={1} value='Male'>Male</MenuItem>
+                    <MenuItem key={2} value='Female'>Female</MenuItem>
+                    <MenuItem key={3} value='Others'>Others</MenuItem>
                   </TextField>
                 </Grid>
                 <Grid item xs={12}>

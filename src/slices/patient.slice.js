@@ -8,16 +8,16 @@ const savePatientInfo = createAsyncThunk('patient-slice/savePatientInfo', async 
 })
 
 const getDoctorsInfo = createAsyncThunk('patient-slice/getDoctorsInfo', async () => {
-  const response = await axiosClient.get('/patient/get-doctors-info', )
+  const response = await axiosClient.get('/patient/get-doctors-info',)
   return response.data
 })
 
-const getConsultations = createAsyncThunk('patient-slice/getConsultations', async () => { 
+const getConsultations = createAsyncThunk('patient-slice/getConsultations', async () => {
   const response = await axiosClient.get(`/patient/get-consultations`)
   return response.data
 })
 
-const getPastConsultations = createAsyncThunk('patient-slice/getPastConsultations', async () => { 
+const getPastConsultations = createAsyncThunk('patient-slice/getPastConsultations', async () => {
   const response = await axiosClient.get(`/patient/get-past-consultations`)
   return response.data
 })
@@ -27,8 +27,18 @@ const setRatingAndReview = createAsyncThunk('patient-slice/setRatingAndReview', 
   return response.data
 })
 
-const checkInfo = createAsyncThunk('patient-slice/checkInfo', async () => { 
+const checkInfo = createAsyncThunk('patient-slice/checkInfo', async () => {
   const response = await axiosClient.get(`/patient/check-info`)
+  return response.data
+})
+
+const checkAvailableSlot = createAsyncThunk('patient-slice/checkAvailableSlot', async (obj) => { 
+  const response = await axiosClient.get(`/patient/check-available-slot/${obj.doctorId}/${obj.date}`)
+  return response.data
+})
+
+const bookConsultation = createAsyncThunk('patient-slice/bookConsultation', async (data) => {
+  const response = await axiosClient.post(`/consultation/book-consultation`, data)
   return response.data
 })
 
@@ -41,13 +51,35 @@ let patientSlice = createSlice({
     pLoading: null,
     patientInfo: localStorage.getItem('patientInfo-iCare') !== null ? JSON.parse(localStorage.getItem('patientInfo-iCare')) : null,
     takePatientInfo: localStorage.getItem('patientInfo-iCare') !== null ? false : true,
-    allDoctors: null,
-    todaysConsultations: null,
-    upcomingConsultations: null,
-    pastConsultations: null,
+    allDoctors: [],
+    todaysConsultations: [],
+    upcomingConsultations: [],
+    pastConsultations: [],
+    showDoctors: [],
+    availableSlot: [],
   },
   reducers: {
-    
+    updateShowDoctor: (state, action) => {
+      let arr = []
+      state.allDoctors.forEach(doc => {
+        if (JSON.stringify(doc).toLowerCase().includes(action.payload)) arr.push(doc)
+      })
+      state.showDoctors = arr
+    },
+    applyFilter: (state, action) => {
+      if (action.payload === 'ratinghl') {
+        state.showDoctors.sort((a, b) => a.ratingAndReview[0] - b.ratingAndReview[0])
+      }
+      else if (action.payload === 'feelh') {
+        state.showDoctors.sort((a, b) => b.cost - a.cost)
+      }
+      else if (action.payload === 'feehl') {
+        state.showDoctors.sort((a, b) => a.cost - b.cost)
+      }
+    },
+    updateAvailableSlot: (state, action) => {
+      state.availableSlot = []
+    }
   },
   extraReducers(builder) {
     builder
@@ -80,6 +112,7 @@ let patientSlice = createSlice({
         state.pError = null
         state.pLoading = false
         state.allDoctors = action.payload.data
+        state.showDoctors = action.payload.data
       })
 
       .addCase(getConsultations.pending, (state, action) => {
@@ -143,12 +176,41 @@ let patientSlice = createSlice({
         else {
           state.patientInfo = action.payload.data
           state.takePatientInfo = false
+          localStorage.setItem('patientInfo-iCare', JSON.stringify(state.patientInfo))
         }
+      })
+
+      .addCase(checkAvailableSlot.pending, (state, action) => {
+        state.pError = null
+        state.pLoading = true
+      })
+      .addCase(checkAvailableSlot.rejected, (state, action) => {
+        state.pError = action.error.message
+        state.pLoading = false
+      })
+      .addCase(checkAvailableSlot.fulfilled, (state, action) => {
+        state.pError = null
+        state.pLoading = false
+        state.availableSlot = action.payload.data
+      })
+    
+      .addCase(bookConsultation.pending, (state, action) => {
+        state.pError = null
+        state.pLoading = true
+      })
+      .addCase(bookConsultation.rejected, (state, action) => {
+        state.pError = action.error.message
+        state.pLoading = false
+      })
+      .addCase(bookConsultation.fulfilled, (state, action) => {
+        state.pError = null
+        state.pLoading = false
+        state.pAlert = action.payload.alert
       })
   }
 })
 
 
 export default patientSlice.reducer
-// export const {  } = patientSlice.actions
-export { savePatientInfo, getDoctorsInfo, getConsultations, getPastConsultations, setRatingAndReview, checkInfo }
+export const { updateShowDoctor, applyFilter, updateAvailableSlot } = patientSlice.actions
+export { bookConsultation, checkAvailableSlot, savePatientInfo, getDoctorsInfo, getConsultations, getPastConsultations, setRatingAndReview, checkInfo }

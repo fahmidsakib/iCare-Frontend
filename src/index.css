@@ -8,12 +8,32 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(252, 119, 83);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(255, 84, 36);
+}
+
 
 /* Loading */
 
-.Loading{
+.Loading {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,6 +118,484 @@ p.name {
   color: white;
 }
 
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px;
+  gap: 20px;
+}
+
+.Home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  overflow: auto;
+}
+
+button.home-btn {
+  font-size: 16px;
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+  color: #373F47;
+}
+
+input.search {
+  font-size: 16px;
+  padding: 10px;
+  width: 70%;
+  border-radius: 5px;
+}
+
+.search-box {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+button.search-btn {
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.filter {
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.showDiv {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+}
+
+/* DoctorCard */
+
+.doctor-Card-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+}
+
+.doctor-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+  background-color: #DBD2E0;
+  border-radius: 10px;
+  /* box-shadow: 0px 0px 10px 1px rgb(0 0 0 / 50%); */
+  border-bottom: 4px solid rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.left-doc-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.doc-card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+}
+
+p.doc-name {
+  font-size: 20px;
+  color: rgb(19, 12, 113);
+}
+
+p.speciality-text,
+p.experience,
+.qualification {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.speciality {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+
+}
+
+p.location {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+p.hospital-name,
+p.fee {
+  font-size: 14px;
+}
+
+p.rating {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+span {
+  font-size: 16px;
+  font-weight: bold;
+  opacity: 1;
+  color: rgb(252, 119, 83);
+}
+
+
+.bookingbutton {
+  padding: 0px 15px;
+}
+
+button.booking {
+  background-color: rgb(252, 119, 83);
+  font-size: 16px;
+  padding: 10px 30px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0px 0px 20px 1px rgb(255, 255, 255);
+}
+
+
+.booking:hover {
+  background-color: white;
+  color: rgb(252, 119, 83);
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+button.booking1 {
+  background-color: rgb(252, 119, 83);
+  font-size: 16px;
+  padding: 10px 30px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0px 0px 20px 1px rgb(255, 255, 255);
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+
+
+.booking1:hover {
+  background-color: white;
+  color: rgb(252, 119, 83);
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+/* PatientBookingCard */
+.booking-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px 20px;
+  background-color: #DBD2E0;
+  border-radius: 10px;
+  /* box-shadow: 0px 0px 10px 1px rgb(0 0 0 / 50%); */
+  border-bottom: 4px solid rgba(0, 0, 0, 0.5);
+}
+
+.info-booking {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+}
+
+p.date-time {
+  font-size: 16px;
+}
+
+p.status {
+  background-color: rgb(252, 119, 83);
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+.bookings {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 100%;
+  /* height: 100%; */
+  overflow: auto;
+  gap: 30px;
+}
+
+h2 {
+  color: rgb(252, 119, 83);
+  padding-bottom: 10px;
+}
+
+p.message {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.bookingCard-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+
+.booking-popup {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.innerPopup {
+  display: flex;
+  flex-direction: column;
+  background-color: #DBD2E0;
+  /* overflow: hidden; */
+  width: 450px;
+  border-radius: 10px;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  padding: 20px;
+  margin: 0px;
+  gap: 20px;
+  /* color: white; */
+}
+
+.inputDiv {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex: 1;
+  width: 100%;
+  gap: 10px;
+}
+
+.input-text {
+  font-size: 20px;
+  padding: 5px 10px;
+  color: rgb(3, 4, 94);
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+}
+
+label {
+  font-size: 20px;
+  color: rgb(252, 119, 83);
+  font-weight: bold;
+}
+
+button.kick1 {
+  font-size: 20px;
+  font-weight: bold;
+  background-color: white;
+  color: rgb(252, 119, 83);
+  border: none;
+  padding: 5px 13px;
+  border-radius: 100%;
+  cursor: pointer;
+  position: absolute;
+  right: -15px;
+  top: -15px;
+}
+
+.timeSlot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px 0px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+button.time-btn {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(252, 119, 83);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  box-shadow: 0px 0px 20px 1px rgb(255, 255, 255);
+  cursor: pointer;
+}
+
+button.time-btn:hover {
+  background-color: white;
+  color: rgb(252, 119, 83);
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+button.time-btn:disabled {
+  background-color: #DBD2E0;
+  color: black;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+
+button.booking2 {
+  background-color: rgb(252, 119, 83);
+  font-size: 16px;
+  padding: 10px 30px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 100%;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0px 0px 20px 1px rgb(255, 255, 255);
+}
+
+.booking2:hover {
+  background-color: white;
+  color: rgb(252, 119, 83);
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+
+.Profile {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 100%;
+  /* height: 100%; */
+  overflow: auto;
+  gap: 30px;
+  position: relative;
+}
+
+.info-patient-profile-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 30px 0px;
+}
+
+
+.middle-profile {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 50px;
+  width: 100%;
+  padding-bottom: 30px;
+}
+
+
+.name-email {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+p.name-profile {
+  color: rgb(19, 12, 113);
+  font-size: 28px;
+  font-weight: bold;
+}
+
+p.email,
+.location-profile {
+  font-size: 18px;
+  /* font-style: italic; */
+}
+
+
+p.blood-group-profile {
+  font-size: 18px;
+}
+
+span.profile {
+  color: rgb(252, 119, 83);
+  font-size: 18px;
+  text-transform: capitalize;
+}
+
+p.pastDiseases {
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(19, 12, 113);
+}
+
+.disease {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+p.diseaseName,
+p.diseaseYear {
+  font-size: 18px;
+}
+
+.diseases-Div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 0px;
+}
+
+
+.edit {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 50px;
+  cursor: pointer;
+}
+
+
 
 /* PatientForm */
 
@@ -141,6 +639,16 @@ p.name {
   height: 100vh;
   width: 100%;
   overflow: hidden;
+}
+
+.Home-doc {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 100%;
+  /* height: 100%; */
+  overflow: auto;
+  gap: 30px;
 }
 
 /* DoctorForm */
