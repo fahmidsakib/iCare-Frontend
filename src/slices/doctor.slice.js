@@ -7,8 +7,8 @@ const saveDoctorInfo = createAsyncThunk('doctor-slice/saveDoctorInfo', async (da
   return response.data
 })
 
-const getSpecificPatientsInfo = createAsyncThunk('doctor-slice/getSpecificPatientsInfo', async (patientId) => {
-  const response = await axiosClient.get(`/doctor/get-patient-info/${patientId}`)
+const getSpecificPatientsInfo = createAsyncThunk('doctor-slice/getSpecificPatientsInfo', async (data) => {
+  const response = await axiosClient.post(`/doctor/get-patient-info`, data)
   return response.data
 })
 
@@ -55,6 +55,7 @@ let doctorSlice = createSlice({
     dError: null,
     dAlert: null,
     dLoading: null,
+    dPopupLoading: null,
     patientInfo: null,
     doctorInfo: localStorage.getItem('doctorInfo-iCare') !== null ? JSON.parse(localStorage.getItem('doctorInfo-iCare')) : null,
     takeDoctorInfo: localStorage.getItem('doctorInfo-iCare') !== null ? false : true,
@@ -91,15 +92,15 @@ let doctorSlice = createSlice({
 
       .addCase(getSpecificPatientsInfo.pending, (state, action) => {
         state.dError = null
-        state.dLoading = true
+        state.dPopupLoading = true
       })
       .addCase(getSpecificPatientsInfo.rejected, (state, action) => {
         state.dError = action.error.message
-        state.dLoading = false
+        state.dPopupLoading = false
       })
       .addCase(getSpecificPatientsInfo.fulfilled, (state, action) => {
         state.dError = null
-        state.dLoading = false
+        state.dPopupLoading = false
         state.patientInfo = action.payload.data
       })
 

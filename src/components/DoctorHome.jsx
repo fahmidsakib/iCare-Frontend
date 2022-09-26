@@ -9,7 +9,6 @@ import DoctorForm from './DoctorForm';
 import { checkInfo, getConsultations, getPatientsInfo, getRevenue, updatedErrordAlert } from '../slices/doctor.slice';
 import Loading from './Loading';
 import DoctorBookingCard from './DoctorBookingCard';
-
 export default function DoctorHome() {
 
   const day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -35,9 +34,8 @@ export default function DoctorHome() {
 
   useEffect(() => {
     let ratingSum = 0
-    doctorInfo.ratingAndReview.forEach((rating) => ratingSum += Number(rating.rating))
+    if (doctorInfo !== null) doctorInfo.ratingAndReview.forEach((rating) => ratingSum += Number(rating.rating))
     ratingSum === 0 ? setRating(0) : setRating((ratingSum / doctorInfo.ratingAndReview.length).toFixed(1))
-    console.log(ratingSum, doctorInfo.ratingAndReview.length)
     dispatch(checkInfo())
     dispatch(getPatientsInfo())
     dispatch(getConsultations())
@@ -74,7 +72,7 @@ export default function DoctorHome() {
                 {dLoading ? <Loading /> :
                   (todaysConsultations.length === 0 ? <p className="message">No consultation for Today</p> :
                     <div className="bookingCard-div">
-                      {todaysConsultations.map(el => <DoctorBookingCard consultation={el} />)}
+                      {todaysConsultations.map(el => <DoctorBookingCard key={el.id} consultation={el} />)}
                     </div>)}
               </div>
 
@@ -130,8 +128,8 @@ export default function DoctorHome() {
                     </div>
                   </div>
 
-                <p className="doc-text">Cost: <span className="doc-info-text-p">${doctorInfo.cost}</span></p>
-                {rating !== null && <p className="doc-text">Rating: 🌟 <span className="doc-info-text-p">{rating}</span></p>}
+                  <p className="doc-text">Cost: <span className="doc-info-text-p">${doctorInfo.cost}</span></p>
+                  {rating !== null && <p className="doc-text">Rating: 🌟 <span className="doc-info-text-p">{rating}</span></p>}
 
                 </div>
 
@@ -170,7 +168,7 @@ export default function DoctorHome() {
             </div>}
 
           </>}
-        
+
         <Snackbar autoHideDuration={3000} open={dError !== null} onClose={() => dispatch(updatedErrordAlert())} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} message={dError} />
         <Snackbar autoHideDuration={3000} open={dAlert !== null} onClose={() => dispatch(updatedErrordAlert())} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} message={dAlert} />
 
