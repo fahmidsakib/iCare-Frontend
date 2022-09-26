@@ -596,6 +596,14 @@ p.diseaseYear {
 }
 
 
+.patient-button-booking-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
 
 /* PatientForm */
 
@@ -651,10 +659,58 @@ p.diseaseYear {
   gap: 30px;
 }
 
+.button-doc-booking-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.diseases-Div1 {
+  display: flex;
+  /* flex-direction: column; */
+  gap: 5px;
+  padding: 0px 0px;
+}
+
+.doc-div-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0px;
+  gap: 4px;
+}
+
+.doc-info-text-p {
+  font-size: 16px;
+  font-weight: bold;
+  opacity: 1;
+  color: rgb(252, 119, 83);
+}
+
+.middle-profile-doc {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+}
+
 /* DoctorForm */
 
 .DoctorForm {
   width: 100%;
   height: 100%;
   overflow: auto;
+}
+
+/* Middleware */
+
+.Middleware{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

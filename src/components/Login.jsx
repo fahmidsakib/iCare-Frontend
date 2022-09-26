@@ -6,11 +6,12 @@ import { Navigate } from 'react-router-dom'
 import SignIn from './Signin'
 import SignUp from './Signup'
 import { updateErrorAlert } from '../slices/user.slice'
+import ResetPassword from './ResetPassword';
 
 export default function Login() {
 
     let dispatch = useDispatch()
-    let { toggleSignup, authenticated, userError, userAlert, user } = useSelector(state => state.userSlice)
+    let { resetPassword, toggleSignup, authenticated, userError, userAlert, user } = useSelector(state => state.userSlice)
 
     return authenticated ?
         user.userType === 'patient' ? 
@@ -18,7 +19,8 @@ export default function Login() {
             <Navigate to="/home/d" replace={true} />
         :
         <div className="Login">
-            {toggleSignup ? <SignUp /> : <SignIn />}
+            {resetPassword ? <ResetPassword/> :
+            (toggleSignup  ? <SignUp /> : <SignIn />)}
             <Snackbar autoHideDuration={3000} open={userError !== null} onClose={() => dispatch(updateErrorAlert())} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} message={userError} />
             <Snackbar autoHideDuration={3000} open={userAlert !== null} onClose={() => dispatch(updateErrorAlert())} anchorOrigin={{vertical: "bottom", horizontal: "right"}} message={userAlert} />
         </div>

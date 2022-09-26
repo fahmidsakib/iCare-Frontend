@@ -38,7 +38,7 @@ export default function PatientHome() {
 
 
   useEffect(() => {
-    if (takePatientInfo) dispatch(checkInfo())
+    dispatch(checkInfo())
     dispatch(getDoctorsInfo())
     dispatch(getConsultations())
     dispatch(getPastConsultations())
@@ -47,7 +47,7 @@ export default function PatientHome() {
 
 
   return !authenticated ? <Navigate to={`/`} replace={true} /> :
-    patientInfo === null ? <Loading /> :
+    patientInfo === null ? <div className="Middleware"><Loading /></div> :
       <div className="PatientHome">
 
         <div className="header">

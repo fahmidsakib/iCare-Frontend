@@ -22,8 +22,10 @@ export default function DoctorCard({ doc }) {
 
   let bookConsultationFunc = () => {
     let obj = {
-      patientId: patientInfo.id,
-      doctorId: doc.id,
+      patientEmail: patientInfo.email,
+      doctorEmail: doc.email,
+      patientName: patientInfo.name,
+      doctorName: doc.name,
       time, 
       date, 
       cost: doc.cost
@@ -31,7 +33,8 @@ export default function DoctorCard({ doc }) {
     dispatch(bookConsultation(obj))
     dispatch(getConsultations())
     dispatch(getPastConsultations())
-    setDate(null)
+    dispatch(updateAvailableSlot())
+    setDate(defaultDate.toLocaleDateString('en-CA'))
     setTime(null)
   }
 
@@ -39,7 +42,7 @@ export default function DoctorCard({ doc }) {
     let ratingSum = 0
     doc.ratingAndReview.forEach((rating) => ratingSum += rating.rating)
     ratingSum === 0 ? setRating(0) : setRating(ratingSum / doc.ratingAndReview.length.toFixed(1))
-    if(!date) checkSlot(date)
+    checkSlot(date)
     // eslint-disable-next-line
   }, [])
 
@@ -78,7 +81,7 @@ export default function DoctorCard({ doc }) {
             </div>}
         </div>
         <button onClick={() => { bookConsultationFunc(); setOpen(false) }} className="booking2">Confirm Your Booking</button>
-        <button className="kick1" onClick={() => { setOpen(false); setDate(null); setTime(null); dispatch(updateAvailableSlot()) }}>X</button>
+        <button className="kick1" onClick={() => { setOpen(false); setDate(defaultDate.toLocaleDateString('en-CA')); setTime(null); dispatch(updateAvailableSlot()) }}>X</button>
       </div>
     </div>}
 

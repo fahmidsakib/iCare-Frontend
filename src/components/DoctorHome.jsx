@@ -12,6 +12,7 @@ import DoctorBookingCard from './DoctorBookingCard';
 
 export default function DoctorHome() {
 
+  const day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   let dispatch = useDispatch()
   let goto = useNavigate()
   let [pageOp, setPageOp] = useState([true, false])
@@ -29,7 +30,7 @@ export default function DoctorHome() {
 
 
   useEffect(() => {
-    if (takeDoctorInfo) dispatch(checkInfo())
+    dispatch(checkInfo())
     dispatch(getPatientsInfo())
     dispatch(getConsultations())
     // eslint-disable-next-line
@@ -37,7 +38,7 @@ export default function DoctorHome() {
 
 
   return !authenticated ? <Navigate to={`/`} replace={true} /> :
-    doctorInfo === null ? <Loading /> :
+    doctorInfo === null ? <div className="Middleware"><Loading /></div> :
       <div className="DoctorHome">
 
         <div className="header">
@@ -62,23 +63,70 @@ export default function DoctorHome() {
             
             <div className="bookingDiv">
               <h2>Today's Consultation</h2>
-              {/* {todaysConsultations.length === 0 ? <p className="message">No consultation for Today</p> :
+              {todaysConsultations.length === 0 ? <p className="message">No consultation for Today</p> :
                 <div className="bookingCard-div">
                   {todaysConsultations.map(el => <DoctorBookingCard consultation={el} />)}
-                </div>} */}
+                </div>}
             </div>
 
             <div className="bookingDiv">
               <h2>Upcoming Consultation</h2>
-              {/* {upcomingConsultations.length === 0 ? <p className="message">No upcoming consultation</p> :
+              {upcomingConsultations.length === 0 ? <p className="message">No upcoming consultation</p> :
                 <div className="bookingCard-div">
                   {upcomingConsultations.map(el => <DoctorBookingCard key={el.id} consultation={el} />)}
-                </div>} */}
+                </div>}
             </div>
 
           </div>}
           
-          {pageOp[1] && <div className="Profile-doc">
+          {pageOp[1] && <div className="Profile">
+
+            <img src="/images/edit.png" alt="" className="edit" />
+
+            <div className="bookingDiv">
+              <h2>Profile details</h2>
+              <div className="info-patient-profile-top">
+                <img src="/images/doctor.png" alt="" />
+                <div className="name-email">
+                  <p className="name-profile">{doctorInfo.name}</p>
+                  <p className="email">Email: {doctorInfo.email}</p>
+                </div>
+              </div>
+
+              <div className="middle-profile-doc">
+                <p className="doc-text">Qualification: {doctorInfo.qualification}</p>
+                <p className="doc-text">Experience: {doctorInfo.experience}</p>
+                <p className="doc-text">Hospital: {doctorInfo.hospital}</p>
+                <p className="doc-text">Location: {doctorInfo.location}</p>
+
+                <div className="doc-div-info">
+                  <p className="doc-text">Speciality: </p>
+                  <div className="diseases-Div1">
+                    {doctorInfo.speciality.map(el => <div className="disease"><p className="doc-info-text-p">{el}</p></div>)}
+                  </div>
+                </div>
+
+                <div className="doc-div-info">
+                  <p className="doc-text">Available Day: </p>
+                  <div className="diseases-Div1">
+                    {doctorInfo.availableDay.map((el, index) => (el && <div className="disease"><p className="doc-info-text-p">{day[index]}</p></div>))}
+                  </div>
+                </div>
+
+                <div className="doc-div-info">
+                  <p className="doc-text">Available Time: </p>
+                  <div className="diseases-Div1">
+                    {doctorInfo.availableTime.map(el => <div className="disease"><p className="doc-info-text-p">{el}</p></div>)}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div className="bookingDiv">
+              <h2>Revenue: </h2>
+              
+            </div>
 
           </div>}
 

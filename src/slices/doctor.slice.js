@@ -38,6 +38,16 @@ const checkInfo = createAsyncThunk('doctor-slice/checkInfo', async () => {
   return response.data
 })
 
+const cancelConsultation = createAsyncThunk('doctor-slice/cancelConsultation', async (consultationId) => {
+  const response = await axiosClient.get(`/consultation/cancel-consultation/${consultationId}`)
+  return response.data
+})
+
+const closeConsultation = createAsyncThunk('doctor-slice/closeConsultation', async (data) => {
+  const response = await axiosClient.post(`/consultation/close-consultation/${data.consultationId}`, data)
+  return response.data
+})
+
 
 let doctorSlice = createSlice({
   name: 'doctor-slice',
@@ -104,6 +114,34 @@ let doctorSlice = createSlice({
         state.allPatients = action.payload.data
       })
 
+      .addCase(cancelConsultation.pending, (state, action) => {
+        state.dError = null
+        state.dLoading = true
+      })
+      .addCase(cancelConsultation.rejected, (state, action) => {
+        state.dError = action.error.message
+        state.dLoading = false
+      })
+      .addCase(cancelConsultation.fulfilled, (state, action) => {
+        state.dError = null
+        state.dLoading = false
+        state.dAlert = action.payload.alert
+      })
+
+      .addCase(closeConsultation.pending, (state, action) => {
+        state.dError = null
+        state.dLoading = true
+      })
+      .addCase(closeConsultation.rejected, (state, action) => {
+        state.dError = action.error.message
+        state.dLoading = false
+      })
+      .addCase(closeConsultation.fulfilled, (state, action) => {
+        state.dError = null
+        state.dLoading = false
+        state.dAlert = action.payload.alert
+      })
+
       .addCase(getConsultations.pending, (state, action) => {
         state.dError = null
         state.dLoading = true
@@ -161,4 +199,4 @@ let doctorSlice = createSlice({
 
 export default doctorSlice.reducer
 // export const { } = doctorSlice.actions
-export { getPatientsInfo, saveDoctorInfo, getSpecificPatientsInfo, getRevenue, getConsultations, checkInfo }
+export { closeConsultation, cancelConsultation, getPatientsInfo, saveDoctorInfo, getSpecificPatientsInfo, getRevenue, getConsultations, checkInfo }

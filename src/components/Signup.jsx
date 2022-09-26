@@ -11,6 +11,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { updateToggleSignup, signup } from '../slices/user.slice'
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import Loading from './Loading';
 
 function Copyright(props) {
     return (
@@ -31,6 +33,7 @@ export default function Signup() {
 
     let dispatch = useDispatch()
     let [userType, setUserType] = useState('patient')
+    let { userLoading } = useSelector(state => state.userSlice)
     let [checked, setChecked] = useState(true)
 
     const handleSubmit = (event) => {
@@ -126,9 +129,9 @@ export default function Signup() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mt: 3, mb: 2, backgroundColor: 'rgb(252, 119, 83)' }}
                         >
-                            Sign Up
+                            {userLoading ? <Loading /> : 'Sign Up'}
                         </Button>
                         <Grid container justifyContent="center">
                             <Grid item>

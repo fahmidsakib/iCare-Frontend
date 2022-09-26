@@ -23,7 +23,7 @@ axiosClient.interceptors.response.use((res) => {
     return axiosClient(originalConfig)
   }
   try {
-    error.message = error.message.data.error
+    error.message = error.response.data.error
   } catch (error) {
     console.log(error)
   }

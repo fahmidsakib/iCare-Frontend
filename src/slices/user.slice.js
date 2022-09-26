@@ -11,11 +11,26 @@ const signin = createAsyncThunk('user-slice/signin', async (data) => {
   return response.data
 })
 
+const resetPasswordRequest = createAsyncThunk('user-slice/reset-password-request', async (data) => {
+  const response = await axiosClient.post('/auth/reset-password-request', data)
+  return response.data
+})
+
+const resetPasswordMiddleware = createAsyncThunk('user-slice/resetPasswordMiddleware', async (data) => { 
+  const response = await axiosClient.post(`/auth/reset-password/${data.id}/${data.code}`)
+  return response.data
+})
+
+const resetPasswordConfirm = createAsyncThunk('user-slice/reset-password-confirm', async (data) => {
+  const response = await axiosClient.post('/auth/reset-password-confirm', data)
+  return response.data
+})
 
 let userSlice = createSlice({
   name: 'user-slice',
   initialState: {
     toggleSignup: false,
+    resetPassword: false,
     userError: null,
     userAlert: null,
     userLoading: null,
@@ -73,9 +88,52 @@ let userSlice = createSlice({
         localStorage.setItem('refreshToken-iCare', action.payload.data.refreshToken)
         localStorage.setItem('userInfo-iCare', JSON.stringify(action.payload.data.payload))
       })
+    
+      .addCase(resetPasswordRequest.pending, (state, action) => {
+        state.userError = null
+        state.userLoading = true
+      })
+      .addCase(resetPasswordRequest.rejected, (state, action) => {
+        state.userError = action.error.message
+        state.userLoading = false
+      })
+      .addCase(resetPasswordRequest.fulfilled, (state, action) => {
+        state.userError = null
+        state.userLoading = false
+        state.userAlert = action.payload.alert
+      })
+
+      .addCase(resetPasswordMiddleware.pending, (state, action) => {
+        state.userError = null
+        state.userLoading = true
+      })
+      .addCase(resetPasswordMiddleware.rejected, (state, action) => {
+        state.userError = action.error.message
+        state.userLoading = false
+      })
+      .addCase(resetPasswordMiddleware.fulfilled, (state, action) => {
+        state.userError = null
+        state.userLoading = false
+        state.resetPassword = action.payload.data
+      })
+    
+      .addCase(resetPasswordConfirm.pending, (state, action) => {
+        state.userError = null
+        state.userLoading = true
+      })
+      .addCase(resetPasswordConfirm.rejected, (state, action) => {
+        state.userError = action.error.message
+        state.userLoading = false
+      })
+      .addCase(resetPasswordConfirm.fulfilled, (state, action) => {
+        state.userError = null
+        state.userLoading = false
+        state.resetPassword = false
+        state.userAlert = action.payload.alert
+      })
   }
 })
 
 export default userSlice.reducer
 export const { updateToggleSignup, updateErrorAlert, updateAuthenticated } = userSlice.actions
-export { signup, signin }
+export { signup, signin, resetPasswordRequest, resetPasswordMiddleware, resetPasswordConfirm }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -8,10 +8,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { updateToggleSignup, signin, resetPasswordRequest } from '../slices/user.slice'
+import { resetPasswordConfirm } from '../slices/user.slice'
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import Loading from './Loading';
 
 function Copyright(props) {
     return (
@@ -28,26 +26,23 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function Signin() {
+export default function ResetPassword() {
 
-    let [open, setOpen] = useState(false)
-    let [email, setEmail] = useState('')
-    let { userLoading } = useSelector(state => state.userSlice)
     let dispatch = useDispatch()
-
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         let user = {
-            email: data.get('email'),
+            confirmPassword: data.get('confirmPpassword'),
             password: data.get('password'),
+            email: data.get('email'),
         }
-        dispatch(signin(user))
+        dispatch(resetPasswordConfirm(user))
     };
 
     return (
-        <div className="Middleware">
+        <div className="">
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs" sx={{ backgroundColor: 'white' }}>
                     <CssBaseline />
@@ -61,7 +56,7 @@ export default function Signin() {
                     >
                         <img src="/images/logo.png" alt="" className="logo" />
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Reset Password
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
@@ -69,10 +64,11 @@ export default function Signin() {
                                     <TextField
                                         required
                                         fullWidth
-                                        id="email"
-                                        label="Email Address"
                                         name="email"
-                                        autoComplete="email"
+                                        label="Email"
+                                        type="text"
+                                        id="email"
+                                        autoComplete="new-email"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -86,41 +82,31 @@ export default function Signin() {
                                         autoComplete="new-password"
                                     />
                                 </Grid>
-                            </Grid>
-                            <Grid container spacing={0} justifyContent="flex-start">
-                                <Grid item>
-                                    <button onClick={() => setOpen(true)} className="toggle-signup">Forgotten password?</button>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="confirmPassword"
+                                        label="Confirm Password"
+                                        type="password"
+                                        id="confirmPassword"
+                                        autoComplete="new-password"
+                                    />
                                 </Grid>
                             </Grid>
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2, backgroundColor: 'rgb(252, 119, 83)' }}
+                                sx={{ mt: 3, mb: 2 }}
                             >
-                                {userLoading ? <Loading /> : 'Sign In'}
+                                Change Password
                             </Button>
-                            <Grid container justifyContent="center">
-                                <Grid item>
-                                    <button onClick={() => dispatch(updateToggleSignup(true))} className="toggle-signup">Don't have any account? Signup</button>
-                                </Grid>
-                            </Grid>
                         </Box>
                     </Box>
                     <Copyright sx={{ mt: 2, mb: 2 }} />
                 </Container>
             </ThemeProvider>
-
-            {open && <div className="booking-popup">
-                <div className="innerPopup">
-                    <div className="inputDiv">
-                        <label>Enter you email: </label>
-                        <input className="input-text" type="text" onChange={(e) => { setEmail(e.target.value); }} />
-                    </div>
-                    <button onClick={() => { dispatch(resetPasswordRequest({email})); setOpen(false) }} className="booking2">Submit</button>
-                    <button className="kick1" onClick={() => { setOpen(false); }}>X</button>
-                </div>
-            </div>}
         </div>
     );
 }

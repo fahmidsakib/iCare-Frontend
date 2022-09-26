@@ -23,7 +23,7 @@ const getPastConsultations = createAsyncThunk('patient-slice/getPastConsultation
 })
 
 const setRatingAndReview = createAsyncThunk('patient-slice/setRatingAndReview', async (data) => {
-  const response = await axiosClient.post(`/patient/give-rating/${data.doctorId}`, data)
+  const response = await axiosClient.post(`/patient/give-rating`, data)
   return response.data
 })
 

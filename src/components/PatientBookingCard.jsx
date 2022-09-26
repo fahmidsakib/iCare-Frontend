@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { setRatingAndReview } from '../slices/patient.slice'
+import { getConsultations, getPastConsultations, setRatingAndReview } from '../slices/patient.slice'
 
 export default function PatientBookingCard({ consultation }) {
 
@@ -9,12 +9,13 @@ export default function PatientBookingCard({ consultation }) {
   let { allDoctors } = useSelector(state => state.patientSlice)
   let [doc, setDoc] = useState(null)
   let [open, setOpen] = useState(false)
+  let [open2, setOpen2] = useState(false)
   let [rating, setRating] = useState(0)
   let [review, setReview] = useState('')
 
 
   useEffect(() => {
-    let index = allDoctors.findIndex(doc => doc.id === consultation.doctorId)
+    let index = allDoctors.findIndex(doc => doc.email === consultation.doctorEmail)
     setDoc(allDoctors[index])
     // eslint-disable-next-line
   }, [])
@@ -25,8 +26,11 @@ export default function PatientBookingCard({ consultation }) {
       <div className="info-booking">
         <p className="doc-name">{doc.name}, <span className="qualification">{doc.qualification}</span></p>
         <p className="date-time">Date: {new Date(consultation.date).toLocaleDateString()} | Time: {consultation.time}</p>
-        {consultation.status !== 'Closed' ? <p className="status">{consultation.status}</p> :
-          <button onClick={() => setOpen(true)} className="booking2">Rate the service</button>}
+        <div className="patient-button-booking-card">
+          {consultation.status === "Closed" && <button onClick={() => setOpen2(true)} className="booking2">Prescription</button>}
+          {(!consultation.rated && consultation.status === "Closed") ? <button onClick={() => setOpen(true)} className="booking2">Rate it</button> :
+            <p className="status">{consultation.status}</p>}
+        </div>
       </div>
     </div>
 
@@ -40,8 +44,25 @@ export default function PatientBookingCard({ consultation }) {
           <label>Review</label>
           <input className="input-text" type="text" onChange={(e) => { setReview(e.target.value) }} />
         </div>
-        <button onClick={() => { dispatch(setRatingAndReview({ rating, review, doctorId: consultation.doctorId})); setOpen(false) }} className="booking2">Submit Your Rating</button>
+        <button onClick={() => {
+          dispatch(setRatingAndReview({ rating, review, doctorEmail: consultation.doctorEmail, consultationId: consultation.id }))
+          setOpen(false)
+          dispatch(getConsultations())
+          dispatch(getPastConsultations())
+        }} className="booking2">Submit Your Rating</button>
         <button className="kick1" onClick={() => { setOpen(false); }}>X</button>
+      </div>
+    </div>}
+
+    {open2 && <div className="booking-popup">
+      <div className="innerPopup">
+        <div className="inputDiv">
+          <label>Remarks: </label>
+          <textarea value={consultation.prescription} className="input-text" readOnly rows="15"></textarea>
+          {/* <input className="input-text" type="text" onChange={(e) => { setPrescription(e.target.value); }} /> */}
+        </div>
+        <button className="booking2" onClick={() => { setOpen2(false); }}>Close</button>
+        <button className="kick1" onClick={() => { setOpen2(false); }}>X</button>
       </div>
     </div>}
 
