@@ -16,8 +16,8 @@ const resetPasswordRequest = createAsyncThunk('user-slice/reset-password-request
   return response.data
 })
 
-const resetPasswordMiddleware = createAsyncThunk('user-slice/resetPasswordMiddleware', async (data) => { 
-  const response = await axiosClient.post(`/auth/reset-password/${data.id}/${data.code}`)
+const resetPasswordMiddleware = createAsyncThunk('user-slice/resetPasswordMiddleware', async (data) => {
+  const response = await axiosClient.get(`/auth/reset-password/${data.id}/${data.code}`)
   return response.data
 })
 
@@ -31,6 +31,7 @@ let userSlice = createSlice({
   initialState: {
     toggleSignup: false,
     resetPassword: false,
+    resetPasswordEmail: null,
     userError: null,
     userAlert: null,
     userLoading: null,
@@ -88,7 +89,7 @@ let userSlice = createSlice({
         localStorage.setItem('refreshToken-iCare', action.payload.data.refreshToken)
         localStorage.setItem('userInfo-iCare', JSON.stringify(action.payload.data.payload))
       })
-    
+
       .addCase(resetPasswordRequest.pending, (state, action) => {
         state.userError = null
         state.userLoading = true
@@ -114,9 +115,10 @@ let userSlice = createSlice({
       .addCase(resetPasswordMiddleware.fulfilled, (state, action) => {
         state.userError = null
         state.userLoading = false
-        state.resetPassword = action.payload.data
+        state.resetPassword = true
+        state.resetPasswordEmail = action.payload.data
       })
-    
+
       .addCase(resetPasswordConfirm.pending, (state, action) => {
         state.userError = null
         state.userLoading = true

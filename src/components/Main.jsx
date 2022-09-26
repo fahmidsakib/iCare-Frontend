@@ -12,7 +12,7 @@ export default function Main() {
         <Route path="/" element={<Login />} />
         <Route path="/home/p" element={<PatientHome />} />
         <Route path="/home/d" element={<DoctorHome />} />
-        <Route path="/auth/reset-password/:id/:code" element={<Middleware />} />
+        <Route path="/reset-password/:id/:code" element={<Middleware />} />
       </Routes>
     </div>
   )

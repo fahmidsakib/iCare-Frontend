@@ -10,6 +10,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { resetPasswordConfirm } from '../slices/user.slice'
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function Copyright(props) {
     return (
@@ -29,14 +30,15 @@ const theme = createTheme();
 export default function ResetPassword() {
 
     let dispatch = useDispatch()
+    let { resetPasswordEmail, userLoading } = useSelector(state => state.userSlice)
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         let user = {
-            confirmPassword: data.get('confirmPpassword'),
+            confirmPassword: data.get('confirmPassword'),
             password: data.get('password'),
-            email: data.get('email'),
+            email: resetPasswordEmail
         }
         dispatch(resetPasswordConfirm(user))
     };
@@ -60,7 +62,7 @@ export default function ResetPassword() {
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
-                                <Grid item xs={12}>
+                                {/* <Grid item xs={12}>
                                     <TextField
                                         required
                                         fullWidth
@@ -70,7 +72,7 @@ export default function ResetPassword() {
                                         id="email"
                                         autoComplete="new-email"
                                     />
-                                </Grid>
+                                </Grid> */}
                                 <Grid item xs={12}>
                                     <TextField
                                         required
@@ -100,7 +102,7 @@ export default function ResetPassword() {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                Change Password
+                                {userLoading ? <Loading /> : 'Change Password'}
                             </Button>
                         </Box>
                     </Box>
