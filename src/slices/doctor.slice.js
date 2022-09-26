@@ -22,13 +22,13 @@ const getConsultations = createAsyncThunk('doctor-slice/getConsultations', async
   return response.data
 })
 
-const getRevenue = createAsyncThunk('doctor-slice/getRevenue', async (start_date, end_date = '') => {
-  if (end_date === '') {
-    const response = await axiosClient.get(`/doctor/revenue?start_date=${start_date}`)
+const getRevenue = createAsyncThunk('doctor-slice/getRevenue', async (data) => {
+  if (data.endDate === '') {
+    const response = await axiosClient.get(`/doctor/revenue?start_date=${data.startDate}`)
     return response.data
   }
   else {
-    const response = await axiosClient.get(`/doctor/revenue?start_date=${start_date}&end_date=${end_date}`)
+    const response = await axiosClient.get(`/doctor/revenue?start_date=${data.startDate}&end_date=${data.endDate}`)
     return response.data
   }
 })
@@ -62,10 +62,13 @@ let doctorSlice = createSlice({
     todaysConsultations: [],
     upcomingConsultations: [],
     selectedConsultations: [],
-    revenue: 0,
+    revenue: null,
   },
   reducers: {
-
+    updatedErrordAlert: (state, action) => {
+      state.dAlert = null
+      state.dError = null
+    }
   },
   extraReducers(builder) {
     builder
@@ -198,5 +201,5 @@ let doctorSlice = createSlice({
 
 
 export default doctorSlice.reducer
-// export const { } = doctorSlice.actions
+export const { updatedErrordAlert } = doctorSlice.actions
 export { closeConsultation, cancelConsultation, getPatientsInfo, saveDoctorInfo, getSpecificPatientsInfo, getRevenue, getConsultations, checkInfo }

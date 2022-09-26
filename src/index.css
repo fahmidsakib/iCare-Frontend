@@ -509,7 +509,6 @@ button.booking2 {
   /* height: 100%; */
   overflow: auto;
   gap: 30px;
-  position: relative;
 }
 
 .info-patient-profile-top {
@@ -518,6 +517,10 @@ button.booking2 {
   justify-content: flex-start;
   gap: 20px;
   padding: 30px 0px;
+  background-color: #DBD2E0;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
 }
 
 
@@ -529,8 +532,21 @@ button.booking2 {
   gap: 50px;
   width: 100%;
   padding-bottom: 30px;
+  background-color: #DBD2E0;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0px;
 }
 
+.lower-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: #DBD2E0;
+  padding: 20px;
+  border-radius: 10px;
+}
 
 .name-email {
   display: flex;
@@ -695,7 +711,40 @@ p.diseaseYear {
   align-items: flex-start;
   justify-content: center;
   gap: 10px;
+  background-color: #DBD2E0;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0px;
 }
+
+.dateDiv {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px 20px;
+  width: 100%;
+  background-color: #DBD2E0;
+  border-radius: 10px;
+}
+
+.input-text1 {
+  font-size: 20px;
+  padding: 5px 10px;
+  color: rgb(3, 4, 94);
+  border: none;
+  border-radius: 5px;
+  width: 200px;
+}
+
+.revenueDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px 0px;
+  gap: 10px;
+}
+
 
 /* DoctorForm */
 
@@ -707,7 +756,7 @@ p.diseaseYear {
 
 /* Middleware */
 
-.Middleware{
+.Middleware {
   width: 100%;
   height: 100vh;
   display: flex;

@@ -41,7 +41,7 @@ export default function DoctorCard({ doc }) {
   useEffect(() => {
     let ratingSum = 0
     doc.ratingAndReview.forEach((rating) => ratingSum += rating.rating)
-    ratingSum === 0 ? setRating(0) : setRating(ratingSum / doc.ratingAndReview.length.toFixed(1))
+    ratingSum === 0 ? setRating(0) : setRating((ratingSum / doc.ratingAndReview.length).toFixed(1))
     checkSlot(date)
     // eslint-disable-next-line
   }, [])

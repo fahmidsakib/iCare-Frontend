@@ -62,7 +62,7 @@ let patientSlice = createSlice({
     updateShowDoctor: (state, action) => {
       let arr = []
       state.allDoctors.forEach(doc => {
-        if (JSON.stringify(doc).toLowerCase().includes(action.payload)) arr.push(doc)
+        if (JSON.stringify(doc).toLowerCase().includes(action.payload.toLowerCase())) arr.push(doc)
       })
       state.showDoctors = arr
     },
@@ -79,6 +79,10 @@ let patientSlice = createSlice({
     },
     updateAvailableSlot: (state, action) => {
       state.availableSlot = []
+    },
+    updatepErrorpAlert: (state, action) => {
+      state.pAlert = null
+      state.pError = null
     }
   },
   extraReducers(builder) {
@@ -212,5 +216,5 @@ let patientSlice = createSlice({
 
 
 export default patientSlice.reducer
-export const { updateShowDoctor, applyFilter, updateAvailableSlot } = patientSlice.actions
+export const { updateShowDoctor, applyFilter, updateAvailableSlot, updatepErrorpAlert } = patientSlice.actions
 export { bookConsultation, checkAvailableSlot, savePatientInfo, getDoctorsInfo, getConsultations, getPastConsultations, setRatingAndReview, checkInfo }

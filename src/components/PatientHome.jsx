@@ -5,11 +5,10 @@ import { updateAuthenticated } from '../slices/user.slice'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import Grid from '@mui/material/Grid';
 import Snackbar from '@mui/material/Snackbar';
 import { Navigate, useNavigate } from 'react-router-dom';
 import PatientForm from './PatientForm';
-import { applyFilter, checkInfo, getConsultations, getDoctorsInfo, getPastConsultations, updateShowDoctor } from '../slices/patient.slice';
+import { applyFilter, checkInfo, getConsultations, getDoctorsInfo, getPastConsultations, updatepErrorpAlert, updateShowDoctor } from '../slices/patient.slice';
 import Loading from './Loading';
 import DoctorCard from './DoctorCard';
 import PatientBookingCard from './PatientBookingCard';
@@ -23,7 +22,7 @@ export default function PatientHome() {
   let [filter, setFilter] = useState('')
   let { authenticated, user } = useSelector(state => state.userSlice)
   let { pError, pAlert, pLoading, patientInfo,
-    takePatientInfo, allDoctors, todaysConsultations,
+    takePatientInfo, todaysConsultations,
     upcomingConsultations, pastConsultations, showDoctors } = useSelector(state => state.patientSlice)
 
 
@@ -98,7 +97,9 @@ export default function PatientHome() {
                 </div>
 
                 <div className="showDiv">
-                  {showDoctors.length > 0 && showDoctors.map(doc => <DoctorCard key={doc.id} doc={doc} />)}
+
+                  {(pLoading && showDoctors.length === 0) ? <Loading /> :
+                    (showDoctors.length > 0 && showDoctors.map(doc => <DoctorCard key={doc.id} doc={doc} />))}
                 </div>
 
               </div>}
@@ -107,64 +108,69 @@ export default function PatientHome() {
 
               <div className="bookingDiv">
                 <h2>Today's Consultation</h2>
-                {todaysConsultations.length === 0 ? <p className="message">No consultation for Today</p> :
-                  <div className="bookingCard-div">
-                    {todaysConsultations.map(el => <PatientBookingCard consultation={el} />)}
-                  </div>}
+                {pLoading ? <Loading /> :
+                  (todaysConsultations.length === 0 ? <p className="message">No consultation for Today</p> :
+                    <div className="bookingCard-div">
+                      {todaysConsultations.map(el => <PatientBookingCard consultation={el} />)}
+                    </div>)}
               </div>
 
               <div className="bookingDiv">
                 <h2>Upcoming Consultation</h2>
-                {upcomingConsultations.length === 0 ? <p className="message">No upcoming consultation</p> :
-                  <div className="bookingCard-div">
-                    {upcomingConsultations.map(el => <PatientBookingCard key={el.id} consultation={el} />)}
-                  </div>}
+                {pLoading ? <Loading /> :
+                  (upcomingConsultations.length === 0 ? <p className="message">No upcoming consultation</p> :
+                    <div className="bookingCard-div">
+                      {upcomingConsultations.map(el => <PatientBookingCard key={el.id} consultation={el} />)}
+                    </div>)}
               </div>
 
             </div>}
 
             {pageOp[2] && <div className="Profile">
 
-            <img src="/images/edit.png" alt="" className="edit" />
-            
-            <div className="bookingDiv">
-              <h2>Profile details</h2>
-              <div className="info-patient-profile-top">
-                <img src="/images/patient.png" alt="" />
-                <div className="name-email">
-                  <p className="name-profile">{patientInfo.name}</p>
-                  <p className="email">Email: {patientInfo.email}</p>
-                  <p className="location-profile">Location: {patientInfo.location}</p>
-                </div>
-              </div>
-              <div className="middle-profile">
-                <p className="blood-group-profile">Age: <span className="profile">{patientInfo.age}</span> Years</p>
-                <p className="blood-group-profile">Weight: <span className="profile">{patientInfo.weight}</span> Kg</p>
-                <p className="blood-group-profile">Sex: <span className="profile">{patientInfo.sex}</span> </p>
-                <p className="blood-group-profile">Blood Group: <span className="profile">{patientInfo.bloodGroup}</span> </p>
-              </div>
-              <div className="lower-profile">
-                <p className="pastDiseases">Past Diseases: </p>
-                <div className="diseases-Div">
-                {patientInfo.pastDiseases.map(el => 
-                  <div className="disease">
-                    <p className="diseaseName">{el[0]} : </p>
-                    <p className="diseaseYear">{el[1]}</p>
-                  </div> )}
-                </div>
-              </div>
-            </div>
 
-            <div className="bookingDiv">
-              <h2>Past Consultation</h2>
-              {pastConsultations.length === 0 ? <p className="message">No past consultation</p> :
-                <div className="bookingCard-div">
-                  {pastConsultations.map(el => <PatientBookingCard key={el.id} consultation={el} />)}
-                </div>}
-            </div>
-            
+              <div className="bookingDiv">
+                <h2>Profile details</h2>
+                <div className="info-patient-profile-top">
+                  <img src="/images/edit.png" alt="" className="edit" />
+                  <img src="/images/patient.png" alt="" />
+                  <div className="name-email">
+                    <p className="name-profile">{patientInfo.name}</p>
+                    <p className="email">Email: {patientInfo.email}</p>
+                    <p className="location-profile">Location: {patientInfo.location}</p>
+                  </div>
+                </div>
+                <div className="middle-profile">
+                  <p className="blood-group-profile">Age: <span className="profile">{patientInfo.age}</span> Years</p>
+                  <p className="blood-group-profile">Weight: <span className="profile">{patientInfo.weight}</span> Kg</p>
+                  <p className="blood-group-profile">Sex: <span className="profile">{patientInfo.sex}</span> </p>
+                  <p className="blood-group-profile">Blood Group: <span className="profile">{patientInfo.bloodGroup}</span> </p>
+                </div>
+                <div className="lower-profile">
+                  <p className="pastDiseases">Past Diseases: </p>
+                  <div className="diseases-Div">
+                    {patientInfo.pastDiseases.map(el =>
+                      <div className="disease">
+                        <p className="diseaseName">{el[0]} : </p>
+                        <p className="diseaseYear">{el[1]}</p>
+                      </div>)}
+                  </div>
+                </div>
+              </div>
+
+              <div className="bookingDiv">
+                <h2>Past Consultation</h2>
+                {pastConsultations.length === 0 ? <p className="message">No past consultation</p> :
+                  <div className="bookingCard-div">
+                    {pastConsultations.map(el => <PatientBookingCard key={el.id} consultation={el} />)}
+                  </div>}
+              </div>
+
             </div>}
           </>}
+        
+        <Snackbar autoHideDuration={3000} open={pError !== null} onClose={() => dispatch(updatepErrorpAlert())} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} message={pError} />
+        <Snackbar autoHideDuration={3000} open={pAlert !== null} onClose={() => dispatch(updatepErrorpAlert())} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} message={pAlert} />
 
       </div>
 }

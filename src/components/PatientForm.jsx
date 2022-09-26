@@ -37,7 +37,7 @@ export default function PatietntForm() {
     event.preventDefault();
     let arrDY = []
     diseasesAndYears.forEach(el => { arrDY.push([el.disease, el.years]) })
-    const data = new FormData(event.currentTarget);
+    const data = new FormData(event.currentTarget)
     let info = {
       location: data.get('location'),
       age: data.get('age'),
