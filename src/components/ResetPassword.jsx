@@ -11,6 +11,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { resetPasswordConfirm } from '../slices/user.slice'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import Loading from './Loading';
+
 
 function Copyright(props) {
     return (
